@@ -10,6 +10,7 @@ class Country(models.Model):
         verbose_name = "Country"
         verbose_name_plural = "Countries"
         ordering = ["name"]
+        db_table = "Country"
 
     def __str__(self):
         return self.name
@@ -25,6 +26,7 @@ class State(models.Model):
         verbose_name_plural = "States"
         ordering = ["name"]
         unique_together = ("country", "code")
+        db_table = "State"
 
     def __str__(self):
         return f"{self.name} - {self.country.code}"
@@ -33,51 +35,50 @@ class State(models.Model):
 class City(models.Model):
     state = models.ForeignKey(State, on_delete=models.PROTECT, related_name="cities")
     name = models.CharField(max_length=100)
+    ibge_code = models.CharField(max_length=30, blank=True, null=True, db_column="codigo_ibge")
 
     class Meta:
         verbose_name = "City"
         verbose_name_plural = "Cities"
         ordering = ["name"]
         unique_together = ("state", "name")
+        db_table = "City"
 
     def __str__(self):
         return f"{self.name} - {self.state.code}"
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=150)
-    document = models.CharField(max_length=20, unique=True, help_text="CNPJ ou documento")
-    country = models.ForeignKey(Country, on_delete=models.PROTECT, related_name="companies")
-    state = models.ForeignKey(State, on_delete=models.PROTECT, related_name="companies")
+    legal_name = models.CharField(max_length=150, null=False, blank=False)
+    trade_name = models.CharField(max_length=150, blank=True, null=True)
+    cnpj = models.CharField(max_length=20, unique=True)
     city = models.ForeignKey(City, on_delete=models.PROTECT, related_name="companies")
-    address = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = "Company"
         verbose_name_plural = "Companies"
-        ordering = ["name"]
+        ordering = ["legal_name"]
+        db_table = "Company"
 
     def __str__(self):
-        return self.name
+        return self.legal_name
 
 
 class Branch(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="branches")
     name = models.CharField(max_length=150)
-    code = models.CharField(max_length=20)
-    country = models.ForeignKey(Country, on_delete=models.PROTECT, related_name="branches")
-    state = models.ForeignKey(State, on_delete=models.PROTECT, related_name="branches")
+    code = models.CharField(max_length=50)
     city = models.ForeignKey(City, on_delete=models.PROTECT, related_name="branches")
-    address = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = "Branch"
         verbose_name_plural = "Branches"
         ordering = ["name"]
         unique_together = ("company", "code")
+        db_table = "Branch"
 
     def __str__(self):
-        return f"{self.company.name} - {self.name}"
+        return f"{self.company.legal_name} - {self.name}"
 
 
 class CostCenter(models.Model):
