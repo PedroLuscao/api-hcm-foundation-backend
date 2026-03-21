@@ -11,43 +11,44 @@ from .serializers import (
     EmployeeSerializer,
     CostCenterSerializer
 )
+from .webhooks import WebhookMixin
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
 
-class CountryViewSet(viewsets.ModelViewSet):
+class CountryViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = Country.objects.all().order_by('id')
     serializer_class = CountrySerializer
 
 
-class StateViewSet(viewsets.ModelViewSet):
+class StateViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = State.objects.all().order_by('id')
     serializer_class = StateSerializer
 
 
-class CityViewSet(viewsets.ModelViewSet):
+class CityViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = City.objects.all().order_by('id')
     serializer_class = CitySerializer
 
 
-class CompanyViewSet(viewsets.ModelViewSet):
+class CompanyViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = Company.objects.all().order_by('id')
     serializer_class = CompanySerializer
 
 
-class BranchViewSet(viewsets.ModelViewSet):
+class BranchViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = Branch.objects.all().order_by('id')
     serializer_class = BranchSerializer
 
 
-class CostCenterViewSet(viewsets.ModelViewSet):
+class CostCenterViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = CostCenter.objects.all().order_by('id')
     serializer_class = CostCenterSerializer
 
 
-class EmployeeViewSet(viewsets.ModelViewSet):
+class EmployeeViewSet(WebhookMixin, viewsets.ModelViewSet):
     queryset = Employee.objects.all().order_by('id')
     serializer_class = EmployeeSerializer

@@ -37,6 +37,8 @@ class CountrySerializer(serializers.ModelSerializer):
 
 
 class StateSerializer(serializers.ModelSerializer):
+    paisSourceId = serializers.IntegerField(source='country.id', read_only=True)
+
     class Meta:
         model = State
         fields = '__all__'

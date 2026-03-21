@@ -146,3 +146,21 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+WEBHOOK_URL = 'http://localhost:8080/webhook/replicacao'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'core.webhooks': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+    },
+}
