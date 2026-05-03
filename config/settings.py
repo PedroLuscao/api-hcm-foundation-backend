@@ -147,7 +147,15 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-WEBHOOK_URL = 'http://localhost:8080/webhook/replicacao'
+WEBHOOK_URL = None
+
+RABBITMQ_ENABLED = True
+RABBITMQ_HOST = 'localhost'
+RABBITMQ_PORT = 5672
+RABBITMQ_USERNAME = 'guest'
+RABBITMQ_PASSWORD = 'guest'
+RABBITMQ_VHOST = '/'
+RABBITMQ_REPLICATION_EXCHANGE = 'hcm.replicacao'
 
 LOGGING = {
     'version': 1,
@@ -159,6 +167,10 @@ LOGGING = {
     },
     'loggers': {
         'core.webhooks': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'core.messaging': {
             'handlers': ['console'],
             'level': 'INFO',
         },
