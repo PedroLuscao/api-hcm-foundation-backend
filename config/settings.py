@@ -156,6 +156,10 @@ RABBITMQ_USERNAME = 'guest'
 RABBITMQ_PASSWORD = 'guest'
 RABBITMQ_VHOST = '/'
 RABBITMQ_REPLICATION_EXCHANGE = 'hcm.replicacao'
+RABBITMQ_REPLICATION_QUEUE = 'hcm.replicacao.eventos'
+RABBITMQ_REPLICATION_DLX = 'hcm.replicacao.dlx'
+RABBITMQ_REPLICATION_DLQ = 'hcm.replicacao.eventos.dlq'
+RABBITMQ_REPLICATION_ROUTING_KEY = 'replicacao.#'
 
 LOGGING = {
     'version': 1,

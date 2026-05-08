@@ -65,6 +65,30 @@ def publish_event(event: dict):
             exchange_type='topic',
             durable=True,
         )
+        channel.exchange_declare(
+            exchange=settings.RABBITMQ_REPLICATION_DLX,
+            exchange_type='topic',
+            durable=True,
+        )
+        channel.queue_declare(
+            queue=settings.RABBITMQ_REPLICATION_QUEUE,
+            durable=True,
+            arguments={'x-dead-letter-exchange': settings.RABBITMQ_REPLICATION_DLX},
+        )
+        channel.queue_declare(
+            queue=settings.RABBITMQ_REPLICATION_DLQ,
+            durable=True,
+        )
+        channel.queue_bind(
+            queue=settings.RABBITMQ_REPLICATION_QUEUE,
+            exchange=settings.RABBITMQ_REPLICATION_EXCHANGE,
+            routing_key=settings.RABBITMQ_REPLICATION_ROUTING_KEY,
+        )
+        channel.queue_bind(
+            queue=settings.RABBITMQ_REPLICATION_DLQ,
+            exchange=settings.RABBITMQ_REPLICATION_DLX,
+            routing_key='#',
+        )
         channel.basic_publish(
             exchange=settings.RABBITMQ_REPLICATION_EXCHANGE,
             routing_key=routing_key,

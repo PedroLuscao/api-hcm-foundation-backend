@@ -40,14 +40,9 @@ class WebhookMixin:
 
     def perform_create(self, serializer):
         serializer.save()
-        _send('created', self.get_resource_name(), serializer.instance.pk, dict(serializer.data))
 
     def perform_update(self, serializer):
         serializer.save()
-        _send('updated', self.get_resource_name(), serializer.instance.pk, dict(serializer.data))
 
     def perform_destroy(self, instance):
-        resource = self.get_resource_name()
-        source_id = instance.pk
         instance.delete()
-        _send('deleted', resource, source_id, {})
